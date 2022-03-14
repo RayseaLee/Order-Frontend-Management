@@ -5,6 +5,12 @@ html, body, #app {
   min-width: 1366px;
 }
 
+.clearfix::before, .clearfix::after{
+  content: '';
+  display: table;
+  clear: both;
+}
+
 .el-breadcrumb {
   margin-bottom: 15px;
   font-size: 13px;

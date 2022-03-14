@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-28 15:02:32
- * @FilePath: \VScode\vue\vue-order-control\src\views\goods\list\Goods.vue
- * @LastEditTime: 2022-01-18 12:01:19
+ * @FilePath: \vue\vue-order-control\src\views\goods\list\Goods.vue
+ * @LastEditTime: 2022-03-04 15:18:20
  * @LastEditors: RayseaLee
 -->
 <template>
@@ -30,6 +30,7 @@
           </template>
         </el-table-column>
         <el-table-column label="菜名" prop="name" width='150' fixed></el-table-column>
+        <el-table-column label="菜品分类" prop="category_name" width='100'></el-table-column>
         <el-table-column label="原价" prop="original_price" width='100'></el-table-column>
         <el-table-column label="折扣优惠" prop="discount_amount" width='100'></el-table-column>
         <el-table-column label="实际价格" prop="real_price" width='100'></el-table-column>
@@ -53,7 +54,7 @@
             </el-tooltip>
             <!-- 删除按钮 -->
             <el-tooltip class="item" effect="dark" content="删除" placement="top"  :enterable=false>
-              <el-button type="danger" icon="el-icon-delete" size="small" @click="removeUserById(scope.row.id)"></el-button>
+              <el-button type="danger" icon="el-icon-delete" size="small" @click="deleteGoodsById(scope.row.id)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -65,7 +66,7 @@
 </template>
 
 <script>
-import { getAllGoods } from 'api/goods'
+import { getAllGoods, deleteGoodsById } from 'api/goods'
 import Pagination from 'components/pagination/Pagination.vue'
 
 export default {
@@ -100,32 +101,44 @@ export default {
     handleChange() {
       this.getAllGoods()
     },
-    handleEditClick() {
-
-    },
-    handleRowClick(row) {
+    handleEditClick(id) {
       this.$router.push({
         path: 'goods/detail',
         query: {
-          id: row.id
+          id
         }
       })
     },
+    // handleRowClick(row) {
+    //   this.$router.push({
+    //     path: 'goods/detail',
+    //     query: {
+    //       id: row.id
+    //     }
+    //   })
+    // },
     addGoods() {
       this.$router.push('/goods/add')
+    },
+    deleteGoodsById(id) {
+      this.$confirm('确认删除该菜品？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteGoodsById(id).then(res => {
+          console.log(res)
+          const {status, msg} = res.data.meta
+          if (status != 204) return this.$message.error(msg)
+          this.$message.success('删除成功')
+          this.getAllGoods()
+        })
+      }).catch(() => {
+        this.$message.info('已取消删除')
+      })
     }
   }
 }
 </script>
 <style lang="less" scoped>
-// .goods {
-//   width: 100%;
-//   height: 100%;
-  // .goods-card {
-    // .goods-table {
-    //   width: 100%;
-    //   height: 100%;
-    // }
-  // }
-// }
 </style>

@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2022-01-11 15:40:08
- * @FilePath: \VScode\vue\vue-order-control\src\views\goods\params\Params.vue
- * @LastEditTime: 2022-01-17 11:39:43
+ * @FilePath: \vue\vue-order-control\src\views\goods\params\Params.vue
+ * @LastEditTime: 2022-03-04 14:43:01
  * @LastEditors: RayseaLee
 -->
 <template>
@@ -26,7 +26,6 @@
               v-for="item in !scope.row.list ? [] : scope.row.list.split(',')" 
               :key="item.id"
               @close='handleTagClose(scope.row, item)'
-              @click='handleTagClick(item)'
             >
               {{item}}
             </el-tag>
@@ -162,7 +161,7 @@ export default {
         return
       }
       // 如果参数已存在，直接返回
-      if(row.list.split(',').includes(row.inputValue.trim())) {
+      if(row.list != null && row.list.split(',').includes(row.inputValue.trim())) {
         this.$message.warning("'" + row.inputValue.trim() + "' 参数项已存在!")
         row.inputValue = ""
         return 

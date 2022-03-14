@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-29 15:56:55
- * @FilePath: \VScode\vue\vue-order-control\src\views\goods\list\AddGoods.vue
- * @LastEditTime: 2022-01-18 14:03:38
+ * @FilePath: \vue\vue-order-control\src\views\goods\list\AddGoods.vue
+ * @LastEditTime: 2022-03-03 16:19:18
  * @LastEditors: RayseaLee
 -->
 <template>
@@ -21,7 +21,7 @@
         <el-step title="菜品图片"></el-step>
         <el-step title="完成"></el-step>
       </el-steps>
-      <el-form ref="addFormRef" :model="addForm" :rules="addFormRules" label-position="top">
+      <el-form ref="addFormRef" :model="addForm" :rules="formRules" label-position="top">
         <el-tabs :tab-position="'left'" v-model="activeIndex" :before-leave="beforeLeave">
           <el-tab-pane label="基本信息" name="0">
             <div>
@@ -83,7 +83,7 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="菜品图片" name="3">
-            <upload-pic :form-info="addForm" :file-list="addForm.goodsPics" @success="handleSuccess"></upload-pic>
+            <upload-pic :form-info="addForm"></upload-pic>
             <el-button type="primary" @click="addClick" style="margin-top: 22px">完成</el-button>
           </el-tab-pane>
         </el-tabs>
@@ -93,27 +93,18 @@
 </template>
 
 <script>
-import {getCateList} from 'api/category'
-import {getAllParams} from 'api/params'
 import {createGoods} from 'api/goods'
 import UploadPic from './childComps/UploadPic.vue'
 import goodsParams from './childComps/GoodsParams.vue'
+import {GoodsMixin} from 'mixins'
 
 export default {
   components: {
     UploadPic,
     goodsParams
   },
+  mixins: [GoodsMixin],
   data() {
-    const validatePrice = (rule, value, callback) => {
-      console.log(this.addForm.original_price)
-      if((value - this.addForm.original_price) > 0) {
-        callback(new Error('折扣金额不能大于原价!'))
-      } else {
-        callback()
-      }
-      
-    }
     return {
       activeIndex: '0',
       // 待添加商品的信息
@@ -126,19 +117,6 @@ export default {
         goodsPics: [],
         raw_materials: '',
         introduction: '',
-      },
-      cateList: [],
-      parameterIDs: [],
-      paramsList: [],
-      // 验证规则
-      addFormRules: {
-        name: [{required: true, message: '请输入菜品名称', trigger: 'blur'}],
-        original_price: [{required: true, message: '请输入价格', trigger: 'blur'}],
-        discount_amount: [
-          {required: true, message: '请输入价格', trigger: 'blur'},
-          {validator: validatePrice, trigger: 'blur'}
-        ]
-        // category_name: [{required: true, message: '请选择菜品分类', trigger: 'blur'}],
       }
     }
   },
@@ -149,22 +127,6 @@ export default {
     this.getAllParams()
   },
   methods: {
-    // 获取商品分类信息
-    getCateList() {
-      // Network request
-      getCateList().then(res => {
-        if (res.data.meta.status !== 200) {
-          return this.$message.error(res.data.meta.msg)
-        } else {
-          this.cateList = res.data.data
-        }
-      })
-    },
-    getAllParams() {
-      getAllParams().then(res => {
-        this.paramsList = res.data.data
-      })
-    },
     beforeLeave(activeName, oldActiveName) {
       if (oldActiveName == 0 && (this.addForm.name === '' || this.addForm.original_price === '' || this.addForm.discount_amount === '')) {
         this.$refs.addFormRef.validate(valid => {
@@ -176,28 +138,17 @@ export default {
         return false
       }
     },
-    // Tabs 导航栏改变监听
-    // tabClick(index) {
-    //   this.$refs.addFormRef.validate(valid => {
-    //     if(!valid) return
-    //     this.activeIndex = index
-    //   })
-    // },
     // 价格改变回调
     handleInput() {
       this.addForm.real_price = this.addForm.original_price - this.addForm.discount_amount
     },
+    handleParamsChange() {
+      console.log(this.parameterIDs)
+      console.log(this.paramsList)
+    },
     // 返回上一级
     backClick() {
       this.$router.push('/goods')
-    },
-    // 菜品分类选择框改变回调
-    handleChanged() {
-      console.log(this.addForm.category_id)
-      // this.addForm.category_id = this.addForm.category_name[0]
-    },
-    handleParamsChange() {
-      console.log(this.parameterIDs)
     },
     // 下一步
     nextStep() {
@@ -218,6 +169,12 @@ export default {
         parameterList: this.parameterIDs
       }).then(res => {
         console.log(res)
+        if (res.data.meta.status != 201) {
+          this.$message.error(res.data.meta.msg)
+        } else {
+          this.$message.success(res.data.meta.msg)
+          this.$router.push('/goods')
+        }
       })
     }
   },

@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-29 16:01:22
- * @FilePath: \VScode\vue\vue-order-control\src\views\goods\list\childComps\UploadPic.vue
- * @LastEditTime: 2022-01-17 17:16:10
+ * @FilePath: \vue\vue-order-control\src\views\goods\list\childComps\UploadPic.vue
+ * @LastEditTime: 2022-03-02 16:31:23
  * @LastEditors: RayseaLee
 -->
 <template>
@@ -14,6 +14,7 @@
       :on-success="handleSuccess"
       :on-preview="handlePictureCardPreview"
       :on-remove="handleRemove"
+      :file-list="fileList"
       list-type="picture-card">
       <i class="el-icon-plus"></i>
     </el-upload>
@@ -55,6 +56,18 @@ export default {
       dialogVisible: false,
     }
   },
+  computed: {
+    // _fileList() {
+    //   const arr = []
+    //   this.fileList.forEach(item => {
+    //     arr.push({
+    //       name: item.pic_id,
+    //       url: item.pic_url
+    //     })
+    //   })
+    //   return arr
+    // }
+  },
   methods: {
     // 图片上传成功操作
     handleSuccess(response, file, fileList) {
@@ -72,19 +85,19 @@ export default {
         // 要移除图片的url
         const tempPath = file.response.data.tmp_path
         // 获取对应图片所在的下标
-        const index = this.formInfo.pics.findIndex(item => item.pic === tempPath)
+        const index = this.formInfo.goodsPics.findIndex(item => item.pic === tempPath)
         // 移除图片数组中对应的图片
-        this.formInfo.pics.splice(index, 1)
+        this.formInfo.goodsPics.splice(index, 1)
       } 
-      // 编辑修改商品时的 file
-      else {
-        // 要移除图片的url
-        const url = file.url
-        // 获取对应图片所在的下标
-        const index = this.formInfo.pics.findIndex(item => item.pics_big_url === url)
-        // 移除图片数组中对应的图片
-        this.formInfo.pics.splice(index, 1)
-      }
+      // // 编辑修改商品时的 file
+      // else {
+      //   // 要移除图片的url
+      //   const url = file.url
+      //   // 获取对应图片所在的下标
+      //   const index = this.formInfo.pics.findIndex(item => item.pics_big_url === url)
+      //   // 移除图片数组中对应的图片
+      //   this.formInfo.pics.splice(index, 1)
+      // }
     },
     // 预览图片操作
     handlePictureCardPreview(file) {
@@ -98,19 +111,10 @@ export default {
       // 将商品分类数组转换为字符串
       form.goods_cat = form.goods_cat.join(",")
       // 提交修改操作
-      if (this.btnTitle == "提交修改") {
-        // 在商品信息中解构出需要的参数
-        const {goods_id: id, goods_name, goods_price, goods_number, goods_weight, pics, goods_introduce, attrs, goods_cat} = form
-        // 网络请求：提交修改商品
-        editGoodsInfo(this.formInfo.goods_id, {goods_id: id, goods_name, goods_price, goods_number, goods_weight, pics, goods_introduce, attrs, goods_cat}).then(res => {
-          if (res.data.meta.status !== 200) {
-            this.$message.error(res.data.meta.msg)
-          } else {
-            this.$message.success("修改成功！")
-            this.$router.push('/goods')
-          }
-        })
-      } else { // 添加商品操作
+      // if (this.btnTitle == "提交修改") {
+      //   // 在商品信息中解构出需要的参数
+      //     
+      // } else { // 添加商品操作
         // 格式化商品动态参数
         form.attrs = this.formInfo.attrs
         // 网络请求：添加商品
@@ -122,9 +126,8 @@ export default {
             this.$router.push('/goods')
           }
         })
-      }
     }
-  },
+  }
 }
 </script>
 <style lang="less" scoped>

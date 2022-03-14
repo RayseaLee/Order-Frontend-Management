@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-23 10:41:34
- * @FilePath: \vue\vue-order-control\src\views\store\childComps\StoreNotice.vue
- * @LastEditTime: 2021-12-27 10:38:49
+ * @FilePath: \vue\vue-order-control\src\views\store\storefront\childComps\StoreNotice.vue
+ * @LastEditTime: 2022-03-08 14:50:18
  * @LastEditors: RayseaLee
 -->
 <template>
@@ -54,6 +54,8 @@ export default {
     },
     cancelEditClick() {
       this.isActive = !this.isActive
+      this.inputNotice = this.notice
+      this.$message('已取消')
     }
   },
   computed: {

@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-28 09:50:00
- * @FilePath: \vue\vue-order-control\src\views\store\childComps\AddCouponDialog.vue
- * @LastEditTime: 2021-12-28 16:19:52
+ * @FilePath: \VScode\vue\vue-order-control\src\views\store\storefront\childComps\AddCouponDialog.vue
+ * @LastEditTime: 2022-01-21 14:32:52
  * @LastEditors: RayseaLee
 -->
 <template>
@@ -22,7 +22,7 @@
 <script>
 import MyDialog from "components/mydialog/MyDialog.vue"
 import { createCoupon } from 'api/coupon'
-import {CouponDialogMixin} from '../../../mixins'
+import {CouponDialogMixin} from 'mixins'
 export default {
   mixins: [CouponDialogMixin],
   components: {

@@ -3,7 +3,7 @@
  * @Author: RayseaLee
  * @Date: 2021-12-07 14:36:20
  * @FilePath: \VScode\vue\vue-order-control\src\router\index.js
- * @LastEditTime: 2022-01-11 15:44:44
+ * @LastEditTime: 2022-01-21 14:34:30
  * @LastEditors: RayseaLee
  */
 import Vue from 'vue'
@@ -15,12 +15,13 @@ const Home = () => import('../views/home')
 const User = () => import('../views/user')
 const Rights = () => import('../views/power/Rights.vue')
 const Role = () => import('../views/power/Role.vue')
-const Store = () => import('../views/store')
+const Store = () => import('../views/store/storefront')
 const Goods = () => import('../views/goods')
 const GoodsDetail = () => import('views/goods/list/GoodsDetail.vue')
 const AddGoods = () => import('views/goods/list/AddGoods.vue')
 const Category = () => import('views/goods/category/Category.vue')
 const Params = () => import('views/goods/params/Params.vue')
+const Swipers = () => import('views/store/swipers')
 
 Vue.use(VueRouter)
 
@@ -64,7 +65,7 @@ const routes = [
         path: '/storefront',
         component: Store,
         meta: {
-          alias: ['店面管理']
+          alias: ['店铺管理', '店面管理']
         }
       },
       {
@@ -94,6 +95,13 @@ const routes = [
         component: Params,
         meta: {
           alias: ['商品管理', '动态参数']
+        }
+      }, 
+      {
+        path: '/swipers',
+        component: Swipers,
+        meta: {
+          alias: ['店铺管理', '轮播图管理']
         }
       }
     ]
