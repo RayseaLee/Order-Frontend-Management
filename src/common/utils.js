@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-27 16:45:06
- * @FilePath: \vue\vue-order-control\src\common\utils.js
- * @LastEditTime: 2021-12-27 16:47:56
+ * @FilePath: \vue-order-control\src\common\utils.js
+ * @LastEditTime: 2022-04-11 15:00:57
  * @LastEditors: RayseaLee
  */
 /**
@@ -44,3 +44,19 @@
 function padLeftZero (str) {
   return ('00' + str).substr(str.length);
 };
+
+export function formatTime(date) {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+
+  return `${[year, month, day].map(formatNumber).join('-')} ${[hour, minute, second].map(formatNumber).join(':')}`
+}
+
+const formatNumber = n => {
+  n = n.toString()
+  return n[1] ? n : `0${n}`
+}

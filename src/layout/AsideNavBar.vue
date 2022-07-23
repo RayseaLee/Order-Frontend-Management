@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-14 10:22:14
- * @FilePath: \vue\vue-order-control\src\layout\AsideNavBar.vue
- * @LastEditTime: 2021-12-28 15:15:40
+ * @FilePath: \vue-order-control\src\layout\AsideNavBar.vue
+ * @LastEditTime: 2022-04-18 14:22:29
  * @LastEditors: RayseaLee
 -->
 <template>
@@ -69,6 +69,7 @@ export default {
         4: 'iconfont icon-shangpin',
         5: 'iconfont icon-danju',
         3: 'iconfont icon-baobiao',
+        16: 'my-el-icon el-icon-s-grid'
       },
       activePath: null
     }
@@ -99,6 +100,9 @@ export default {
   width: 200px;
 }
 .iconfont {
+  margin-right: 10px;
+}
+.my-el-icon {
   margin-right: 10px;
 }
 </style>

@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-07 14:28:26
- * @FilePath: \VScode\vue\vue-order-control\src\plugins\element.js
- * @LastEditTime: 2021-12-30 14:59:43
+ * @FilePath: \vue-order-control\src\plugins\element.js
+ * @LastEditTime: 2022-04-18 15:02:04
  * @LastEditors: RayseaLee
  */
 import Vue from 'vue'
@@ -47,7 +47,11 @@ import {
   Avatar,
   Alert,
   Steps,
-  Step
+  Step,
+  Notification,
+  Popover,
+  Empty,
+  Rate
 } from 'element-ui'
 
 Vue.use(Button)
@@ -88,6 +92,10 @@ Vue.use(Avatar)
 Vue.use(Alert)
 Vue.use(Steps)
 Vue.use(Step)
+Vue.use(Popover)
+Vue.use(Empty)
+Vue.use(Rate)
 
+Vue.prototype.$notify = Notification
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm

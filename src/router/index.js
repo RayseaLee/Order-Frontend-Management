@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-07 14:36:20
- * @FilePath: \VScode\vue\vue-order-control\src\router\index.js
- * @LastEditTime: 2022-01-21 14:34:30
+ * @FilePath: \vue-order-control\src\router\index.js
+ * @LastEditTime: 2022-05-13 15:19:00
  * @LastEditors: RayseaLee
  */
 import Vue from 'vue'
@@ -11,7 +11,7 @@ import VueRouter from 'vue-router'
 
 const Login = () => import('../views/login')
 const Index = () => import('../layout')
-const Home = () => import('../views/home')
+const Dashboard = () => import('../views/dashboard')
 const User = () => import('../views/user')
 const Rights = () => import('../views/power/Rights.vue')
 const Role = () => import('../views/power/Role.vue')
@@ -22,6 +22,9 @@ const AddGoods = () => import('views/goods/list/AddGoods.vue')
 const Category = () => import('views/goods/category/Category.vue')
 const Params = () => import('views/goods/params/Params.vue')
 const Swipers = () => import('views/store/swipers')
+const Tables = () => import('views/store/tables')
+const Order = () => import('views/order/Order.vue')
+const Evaluation = () => import('views/order/Evaluation.vue')
 
 Vue.use(VueRouter)
 
@@ -31,11 +34,11 @@ const routes = [
   { 
     path: '/index', 
     component: Index,
-    redirect: '/home',
+    redirect: '/dashboard',
     children: [
       { 
-        path: '/home', 
-        component: Home,
+        path: '/dashboard', 
+        component: Dashboard,
         meta: {
           alias: '首页'
         },
@@ -102,6 +105,27 @@ const routes = [
         component: Swipers,
         meta: {
           alias: ['店铺管理', '轮播图管理']
+        }
+      },
+      {
+        path: '/tables',
+        component: Tables,
+        meta: {
+          alias: ['餐桌管理', '餐桌信息']
+        }
+      },
+      {
+        path: '/orders',
+        component: Order,
+        meta: {
+          alias: ['订单管理', '订单列表']
+        }
+      },
+      {
+        path: '/evaluations',
+        component: Evaluation,
+        meta: {
+          alias: ['订单管理', '订单评价']
         }
       }
     ]

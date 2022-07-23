@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-29 14:42:15
- * @FilePath: \VScode\vue\vue-order-control\src\views\goods\category\Category.vue
- * @LastEditTime: 2022-01-12 09:42:33
+ * @FilePath: \vue-order-control\src\views\goods\category\Category.vue
+ * @LastEditTime: 2022-04-12 14:23:02
  * @LastEditors: RayseaLee
 -->
 <template>
@@ -20,7 +20,7 @@
         <!-- 展开列 -->
         <el-table-column type="expand">
           <template slot-scope="scope">
-            <div>
+            <div class="tag-container">
               <el-tag class='el-tag' v-for="item in scope.row.goods" :key="item.id">
                 {{item.name}}
               </el-tag>
@@ -95,18 +95,20 @@ export default {
 </script>
 
 <style lang="less" scope>
-.el-tag {
-  cursor: pointer;
-  font-size: 16px;
-  margin: 5px 10px;
-  height: 40px; 
-  line-height: 38px
-}
-.el-tag:hover {
-  box-shadow: 0px 0px 5px #409EFF;
-  transition: .3s
-}
-.el-tag:active {
-  box-shadow: 0px 0px 1px #409EFF;
+.tag-container {
+  .el-tag {
+    cursor: pointer;
+    font-size: 16px;
+    margin: 5px 10px;
+    height: 40px; 
+    line-height: 38px
+  }
+  .el-tag:hover {
+    box-shadow: 0px 0px 5px #409EFF;
+    transition: .3s
+  }
+  .el-tag:active {
+    box-shadow: 0px 0px 1px #409EFF;
+  }
 }
 </style>

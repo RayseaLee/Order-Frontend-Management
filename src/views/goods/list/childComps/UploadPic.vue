@@ -3,7 +3,7 @@
  * @Author: RayseaLee
  * @Date: 2021-12-29 16:01:22
  * @FilePath: \vue\vue-order-control\src\views\goods\list\childComps\UploadPic.vue
- * @LastEditTime: 2022-03-02 16:31:23
+ * @LastEditTime: 2022-03-27 16:59:48
  * @LastEditors: RayseaLee
 -->
 <template>
@@ -80,53 +80,33 @@ export default {
     },
     // 移除图片操作
     handleRemove(file, fileList) {
+      console.log(file, fileList);
       // 添加商品时的 file
       if (file.response) {
         // 要移除图片的url
         const tempPath = file.response.data.tmp_path
         // 获取对应图片所在的下标
-        const index = this.formInfo.goodsPics.findIndex(item => item.pic === tempPath)
+        const index = this.formInfo.goodsPics.findIndex(item => item.pic_url === tempPath)
         // 移除图片数组中对应的图片
         this.formInfo.goodsPics.splice(index, 1)
       } 
-      // // 编辑修改商品时的 file
-      // else {
-      //   // 要移除图片的url
-      //   const url = file.url
-      //   // 获取对应图片所在的下标
-      //   const index = this.formInfo.pics.findIndex(item => item.pics_big_url === url)
-      //   // 移除图片数组中对应的图片
-      //   this.formInfo.pics.splice(index, 1)
-      // }
+      // 编辑修改商品时的 file
+      else {
+        console.log(file);
+        console.log(this.formInfo.goodsPics);
+        // 要移除图片的url
+        const url = file.url
+        // 获取对应图片所在的下标
+        const index = this.formInfo.goodsPics.findIndex(item => item.pic_url === url)
+        // 移除图片数组中对应的图片
+        this.formInfo.goodsPics.splice(index, 1)
+      }
     },
     // 预览图片操作
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
-    // 点击按钮操作
-    btnClick() {
-      // 深拷贝商品信息
-      const form = _.cloneDeep(this.formInfo)
-      // 将商品分类数组转换为字符串
-      form.goods_cat = form.goods_cat.join(",")
-      // 提交修改操作
-      // if (this.btnTitle == "提交修改") {
-      //   // 在商品信息中解构出需要的参数
-      //     
-      // } else { // 添加商品操作
-        // 格式化商品动态参数
-        form.attrs = this.formInfo.attrs
-        // 网络请求：添加商品
-        addGoodsInfo(form).then(res => {
-          if (res.data.meta.status != 201) {
-            this.$message.error(res.data.meta.msg)
-          } else {
-            this.$message.success(res.data.meta.msg)
-            this.$router.push('/goods')
-          }
-        })
-    }
   }
 }
 </script>

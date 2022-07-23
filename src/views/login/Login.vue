@@ -7,7 +7,7 @@
         <img src="../../assets/logo.jpeg" alt="头像">
       </div>
       <!-- 登录表单区域 -->
-      <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" class="login_form">
+      <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" class="login_form" v-loading="loading">
         <!-- 用户名 -->
         <el-form-item prop="username">
           <el-input
@@ -27,7 +27,7 @@
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">
-          <el-button type="primary" @click="login">登录</el-button>
+          <el-button type="primary" @click="login" >登录</el-button>
           <el-button type="info" @click="resetLoginForm">重置</el-button>
         </el-form-item>
       </el-form>
@@ -37,12 +37,12 @@
 
 <script>
 import { getUserInfo } from '../../api/login'
-import {encrypt} from '../../common/encrypt'
 export default {
   components: {},
   data () {
     return {
       title: '小程序订单管理系统',
+      loading: false,
       // 登录表单的数据绑定对象
       loginForm: {
         username: 'admin',
@@ -67,6 +67,7 @@ export default {
       console.log(this.$refs.loginFormRef);
     },
     login() {
+      this.loading = true
       this.$refs.loginFormRef.validate(valid => {
         if(!valid) return
         else {
@@ -88,6 +89,8 @@ export default {
               sessionStorage.setItem('token', res.data.data.token)
               this.$router.push('/index')
             }
+          }).finally(() => {
+            this.loading = false
           })
         }
       })

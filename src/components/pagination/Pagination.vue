@@ -3,7 +3,7 @@
  * @Author: RayseaLee
  * @Date: 2021-12-15 15:44:07
  * @FilePath: \vue\vue-order-control\src\components\pagination\Pagination.vue
- * @LastEditTime: 2021-12-16 11:35:13
+ * @LastEditTime: 2022-03-30 17:03:25
  * @LastEditors: RayseaLee
 -->
 <template>
@@ -42,7 +42,7 @@ export default {
     pageSizes: {
       type: Array,
       default() {
-        return [6, 8, 10, 15, 20]
+        return [1, 5, 10, 15, 20]
       }
     }
   },

@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-13 15:51:54
- * @FilePath: \VScode\vue\vue-order-control\src\api\request.js
- * @LastEditTime: 2022-01-17 14:32:46
+ * @FilePath: \vue\vue-order-control\src\api\request.js
+ * @LastEditTime: 2022-03-30 17:27:03
  * @LastEditors: RayseaLee
  */
 /**
@@ -11,6 +11,7 @@
  */
 import axios from 'axios'
 import { API_HOST } from 'config'
+import nProgress from 'nprogress'
 
  export function request(config) {
    // 1.创建axios的实例
@@ -27,12 +28,12 @@ import { API_HOST } from 'config'
    instance.interceptors.request.use(config => {
      // 为请求头对象添加 Token 验证的 Authorization 字段
      config.headers.Authorization = sessionStorage.getItem('token')
-    //  nProgress.start()
+     nProgress.start()
     return config
    })
    // 在 response拦截器中隐藏进度条 nProgress.done()
    instance.interceptors.response.use(config => {
-    //  nProgress.done()
+     nProgress.done()
      return config
    })
  

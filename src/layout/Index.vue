@@ -2,8 +2,8 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-14 10:19:23
- * @FilePath: \vue\vue-order-control\src\layout\Index.vue
- * @LastEditTime: 2021-12-29 15:13:46
+ * @FilePath: \vue-order-control\src\layout\Index.vue
+ * @LastEditTime: 2022-05-13 15:20:22
  * @LastEditors: RayseaLee
 -->
 <template>
@@ -21,6 +21,19 @@
       <el-main>
         <bread-crumb v-show='isShow'></bread-crumb>
         <router-view></router-view>
+        <el-popover
+          title="新增订单: "
+          placement="top-start"
+          width="400"
+          trigger="hover"
+          popper-class="popover">
+          <div class="order-info-container">
+            <order-item v-for="(item, index) in newOrderArr" :orderInfo="item" :key="index" @deleteNewOrder="handleDelete"></order-item>
+            <el-empty v-if="newOrderArr.length == 0" description="暂无新增订单"></el-empty>
+          </div>
+          <!-- <el-button slot="reference">hover 激活</el-button> -->
+          <div class="monitor-btn" slot="reference"><monitor-btn @addNewOrder="handleAdd" :newOrderNum="newOrderNum"></monitor-btn></div>
+        </el-popover>
       </el-main>
     </el-container>
   </el-container>
@@ -30,27 +43,36 @@
 import BreadCrumb from '../components/breadcrumb/BreadCrumb.vue'
 import AsideNavBar from './AsideNavBar'
 import HeaderBar from './HeaderBar'
-import { getMenuList } from '../api/home'
+import MonitorBtn from './MonitorBtn.vue'
+import OrderItem from './OrderItem.vue'
+import { getMenuList } from '../api/dashboard'
 export default {
   components: {
     AsideNavBar,
     HeaderBar,
-    BreadCrumb
+    BreadCrumb,
+    MonitorBtn,
+    OrderItem
   },
   data() {
     return {
       menuList: [],
       isCollapse: false,
       isShow: false,
-      active: null
+      active: null,
+      newOrderArr: [],
+      newOrderNum: 0
     }
   },
   created() {
-    if(this.$route.path != '/home' && JSON.stringify(this.$route.meta) != '{}') {
+    if(this.$route.path != '/dashboard' && JSON.stringify(this.$route.meta) != '{}') {
       this.isShow = true
     }
+    console.log(JSON.parse(sessionStorage.getItem('userInfo')).roleId)
     // 获取所有的菜单
-    getMenuList().then(res => {
+    getMenuList({
+      roleId: JSON.parse(sessionStorage.getItem('userInfo')).roleId
+    }).then(res => {
       if(res.data.meta.status !== 200) {
         this.$message.error(res.data.meta.msg)
         return this.$router.push('/login')
@@ -61,11 +83,22 @@ export default {
   methods: {
     toggleCollapse(isCollapse) {
       this.isCollapse = isCollapse 
+    },
+    handleAdd(data) {
+      this.newOrderNum++
+      this.newOrderArr.push(data)
+    },
+    handleDelete(id) {
+      const arr = this.newOrderArr.filter(order => {
+        return order.id != id
+      })
+      this.newOrderNum--
+      this.newOrderArr = arr
     }
   },
   watch: {
     $route(to, from) {
-      if (to.path == '/home' || JSON.stringify(to.meta) == '{}') {
+      if (to.path == '/dashboard' || JSON.stringify(to.meta) == '{}') {
         this.isShow = false
       } else {
         this.isShow = true
@@ -91,6 +124,24 @@ export default {
 
 .el-main {
   background-color: #eaedf1;
+}
+
+.monitor-btn {
+  position: fixed;
+  right: 40px;
+  bottom: 10px;
+  z-index: 999;
+}
+
+.popover {
+  height: 650px;
+}
+
+.order-info-container {
+  min-height: 150px;
+  max-height: 300px;
+  padding: 10px;
+  overflow: auto;
 }
 
 </style>

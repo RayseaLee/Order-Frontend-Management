@@ -2,13 +2,13 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-22 15:30:26
- * @FilePath: \vue\vue-order-control\src\api\store.js
- * @LastEditTime: 2022-03-05 14:55:41
+ * @FilePath: \vue-order-control\src\api\store.js
+ * @LastEditTime: 2022-04-15 11:27:51
  * @LastEditors: RayseaLee
  */
 import {request} from './request'
 
-// 获取
+// 获取店铺信息
 export function getStoreInfo() {
   return request({
     url: 'storefront'
@@ -58,5 +58,20 @@ export function deleteSwiperById(id) {
   return request({
     url: `swipers/${id}`,
     method: 'delete'
+  })
+}
+
+// 获取桌台信息
+export function getTableInfo() {
+  return request({
+    url: 'tables'
+  })
+}
+
+export function updateTableInfo(data) {
+  return request({
+    url: 'tables',
+    method: 'PUT',
+    data
   })
 }

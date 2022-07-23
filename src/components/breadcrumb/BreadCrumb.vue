@@ -2,14 +2,14 @@
  * @Description: 
  * @Author: RayseaLee
  * @Date: 2021-12-17 15:15:26
- * @FilePath: \vue\vue-order-control\src\components\breadcrumb\BreadCrumb.vue
- * @LastEditTime: 2021-12-29 15:10:27
+ * @FilePath: \vue-order-control\src\components\breadcrumb\BreadCrumb.vue
+ * @LastEditTime: 2022-05-13 15:21:43
  * @LastEditors: RayseaLee
 -->
 <template>
   <!-- 面包屑导航区域 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/dashboard' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item v-for="(item, index) in routes" :key='index'>
         {{item}}
       </el-breadcrumb-item>
